@@ -141,7 +141,7 @@ const app = new Vue({
 + 计算属性 VS Methods
 + 计算属性的依赖如果没有发生变化，当你再次调用计算属性的时候，能够立即返回上次缓存的计算值，而不需要重新执行计算属性的方法
 + 而methods需要重新执行方法体
-+ 例
++ 例:
 ```<template>
     <div>
        <p>Original message:"{{message}}{{a}}"</p>
