@@ -127,12 +127,59 @@ const app = new Vue({
 
 * 当第一次创建.vue文件的时候IDE会问你用什么语法去解析，选择html语法
 * 接下来就可以直接运行npm  run develop了
-
+* 遇到的问题：webstorm 编辑vue文件修改无法热更新（修改之后在浏览器刷新没反应）
+    + 原因：webstorm默认保存在临时文件，所以并没有真正保存文件也就不会触发到热加载自动更新。
+    + 解决办法：在setting->stystem settings下的“use save write”去掉即可
+    
 # vue中的主要知识点
 ## data属性
 * data属性里面的key值会自动挂载到vue实例上
-* data属性可以实现同angular中的双向绑定一样的效果
-* data有点类似于angular中的$scope，但是不一样，它里面只能赋值数据
+* data属性可以实现同angular中的**双向绑定**一样的效果
+* ==data有点类似于angular中的$scope==，但是不一样，它里面只能赋值数据
+## 计算属性
++ 计算属性可以处理模版语法中的复杂业务逻辑
++ 计算属性 VS Methods
++ 计算属性的依赖如果没有发生变化，当你再次调用计算属性的时候，能够立即返回上次缓存的计算值，而不需要重新执行计算属性的方法
++ 而methods需要重新执行方法体
++ 例
+```<template>
+    <div>
+       <p>Original message:"{{message}}{{a}}"</p>
+        <p>Computed reversed message:"{{reversedMessage}}"</p>
+        <p>Computed reversed message:"{{reverseMessage()}}"</p>
+    </div>
+</template>
+<style>
+    body{
+        background-color:#ccc;
+    }
+</style>
+<script>
+    export default{
+        data(){
+            return{
+                message: 'Hello',
+                name:'a'
+            }
+        },
+        mounted(){
+            this.name="b"
+        },
+        computed: {
+            reversedMessage: function () {
+                console.log('计算属性被调用了')
+                return this.message.split('').reverse().join('')
+            }
+        },
+        methods: {
+            reverseMessage: function () {
+                console.log('方法被执行了')
+                return this.message.split('').reverse().join('')
+            }
+        }
+    }
+</script>
+```
 
 ## vue解决的痛点有哪些
 * vue把angular中$scope对象挂载的内容不能区分的痛点给解决了，数据就挂载到data属性上，方法挂载到method属性上
